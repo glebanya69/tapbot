@@ -1,0 +1,274 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Статистика */
+.stats {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  padding: 25px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.score, .energy {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+/* Полоска энергии */
+.energy-bar {
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  margin-top: 15px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.energy-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+  transition: width 0.3s ease;
+  border-radius: 10px;
+  position: relative;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Контейнер для тапа */
+.tap-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0;
+  perspective: 1000px;
+}
+
+.tap-area {
+  width: 280px;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+/* Монета */
+.coin {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 100px;
+  box-shadow: 
+    0 20px 30px rgba(0, 0, 0, 0.3),
+    inset 0 -10px 20px rgba(0, 0, 0, 0.3),
+    inset 0 10px 20px rgba(255, 255, 255, 0.5);
+  transition: all 0.1s ease;
+  animation: float 3s ease-in-out infinite;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.coin::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translate(-30%, -30%) rotate(0deg); }
+  50% { transform: translate(30%, 30%) rotate(180deg); }
+  100% { transform: translate(-30%, -30%) rotate(360deg); }
+}
+
+.coin:active {
+  transform: scale(0.9) rotate(5deg);
+  transition: transform 0.1s;
+}
+
+.coin.disabled {
+  opacity: 0.5;
+  filter: grayscale(50%);
+  animation: none;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+/* Текст под монетой */
+.tap-text {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: fadeInOut 2s infinite;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Эффект +1 при клике */
+.plus-one {
+  position: absolute;
+  color: #ffd700;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 0 0 10px #ffd700;
+  pointer-events: none;
+  animation: floatUp 0.5s ease-out forwards;
+  z-index: 10;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+}
+
+/* Кнопки */
+.buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  padding: 0 10px;
+}
+
+.save-btn, .share-btn {
+  flex: 1;
+  padding: 18px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+  color: #333;
+}
+
+.share-btn {
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  color: white;
+}
+
+.save-btn:active, .share-btn:active {
+  transform: scale(0.95);
+}
+
+.save-btn:disabled, .share-btn:disabled {
+  opacity: 0.5;
+  transform: none;
+  cursor: not-allowed;
+}
+
+/* Адаптивность */
+@media (max-width: 400px) {
+  .coin {
+    width: 150px;
+    height: 150px;
+    font-size: 75px;
+  }
+  
+  .buttons {
+    flex-direction: column;
+  }
+  
+  .stats {
+    padding: 15px;
+  }
+  
+  .value {
+    font-size: 1.5rem;
+  }
+}
+
+/* Анимация загрузки */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stats, .tap-container, .buttons {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+.tap-container {
+  animation-delay: 0.1s;
+}
+
+.buttons {
+  animation-delay: 0.2s;
+}
